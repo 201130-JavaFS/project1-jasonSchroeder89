@@ -15,3 +15,9 @@ let view = new LoginView();
 // let currentState = state.LOGIN;
 
 document.getElementById('body').innerHTML = view.getHtml();
+
+document.getElementById('loginButton').addEventListener('click', login);
+
+async function login() {
+    document.getElementById('body').innerHTML = '<h1>It Works!';
+}

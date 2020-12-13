@@ -10,17 +10,15 @@ export default class LoginView extends AbstractView {
         return `
         <div align="center">
             <h3>ERS Reimbursement System <br><br>Login</h3>
-            <form action="login" method="post">
-                <input type="text" name="userId" placeholder="Enter your username">
+                <input type="text" id="username" 
+                    placeholder="Enter your username">
                 <br>
                 <br>
-                <input type="password" name="password" placeholder=
+                <input type="password" id="password" placeholder=
                     "Enter your password">
                 <br>
                 <br>
-                <input type="submit" value="Login">
-            </form>
-        </div>
-        `;
-    }    
+                <button id='loginButton'>Login</button>
+        </div>`;
+    } 
 }

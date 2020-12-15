@@ -6,9 +6,9 @@ export default class LoginView extends AbstractView {
         this.setTitle("ERS - Login");
     }
 
-    getHtml() {
-        return `
-        <div align="center">
+    displayHTML() {
+        document.getElementById('app').innerHTML = 
+        `<div align="center">
             <h3>ERS Reimbursement System <br><br>Login</h3>
                 <input type="text" id="username" 
                     placeholder="Enter your username">
@@ -20,5 +20,5 @@ export default class LoginView extends AbstractView {
                 <br>
                 <button id='loginButton'>Login</button>
         </div>`;
-    } 
+    }
 }

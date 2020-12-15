@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import com.revature.data.ConnectionUtil;
 
-public class LoginService {
+public class AuthService {
 
 	public boolean login(String username, String password) {
 		

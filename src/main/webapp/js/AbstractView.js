@@ -7,7 +7,7 @@ export default class AbstractView {
         document.title = title;
     }
 
-    async getHtml() {
-        return "";
+    async displayHtml() {
+        return;
     }
 } 

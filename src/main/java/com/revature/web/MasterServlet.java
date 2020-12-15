@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.revature.controllers.LoginController;
+import com.revature.controllers.AuthControlller;
 
 public class MasterServlet extends HttpServlet {
 	
-	private LoginController loginController = new LoginController();
+	private AuthControlller authController = new AuthControlller();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res)
 		throws ServletException, IOException{
@@ -26,7 +26,11 @@ public class MasterServlet extends HttpServlet {
 		
 		switch (URI) {
 		case "login":
-			loginController.login(req, res);
+			authController.login(req, res);
+			break;
+			
+		case "logout":
+			authController.logout(req, res);
 			break;
 		}
 	}
@@ -37,4 +41,10 @@ public class MasterServlet extends HttpServlet {
 		doGet(req, res);
 	}
 
+	
+	protected void doPut(HttpServletRequest req, HttpServletResponse res) 
+			throws ServletException, IOException {
+		
+		doGet(req, res);
+	}
 }

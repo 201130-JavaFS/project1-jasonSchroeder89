@@ -9,12 +9,12 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.LoginDTO;
-import com.revature.services.LoginService;
+import com.revature.services.AuthService;
 
-public class LoginController {
+public class AuthControlller {
 
 	private ObjectMapper mapper = new ObjectMapper();
-	private LoginService loginService = new LoginService();
+	private AuthService loginService = new AuthService();
 	
 	public void login(HttpServletRequest req, HttpServletResponse res) throws 
 		IOException {
@@ -61,6 +61,18 @@ public class LoginController {
 				
 				res.getWriter().print("Login Failed");
 			}
+		}
+	}
+
+	public void logout(HttpServletRequest req, HttpServletResponse res) 
+			throws IOException {
+		
+		if (req.getMethod().equals("PUT")) {
+			req.getSession().invalidate();
+			
+			res.setStatus(200);
+			
+			res.getWriter().print("Logout Successful");
 		}
 	}
 }

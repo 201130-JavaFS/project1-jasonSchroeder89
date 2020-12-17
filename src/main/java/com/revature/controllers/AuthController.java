@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.LoginDTO;
 import com.revature.services.AuthService;
 
-public class AuthControlller {
+public class AuthController {
 
 	private ObjectMapper mapper = new ObjectMapper();
 	private AuthService loginService = new AuthService();
@@ -36,18 +36,19 @@ public class AuthControlller {
 			
 			LoginDTO loginDTO = mapper.readValue(body, LoginDTO.class);
 			
-			if (loginService.login(loginDTO.getUsername(), 
-					loginDTO.getPassword())) {
+			if (loginService.login(loginDTO)) {
+				
+				int[] ids = {loginDTO.getId(), loginDTO.getRole()};
+				
+				String json = mapper.writeValueAsString(ids);
+				
+				res.getWriter().print(json);
 				
 				HttpSession session = req.getSession();
-				
-				session.setAttribute("user", loginDTO);
 				
 				session.setAttribute("loggedIn", true);
 				
 				res.setStatus(200);
-				
-				res.getWriter().print("Login Successful");
 			}
 			
 			else {

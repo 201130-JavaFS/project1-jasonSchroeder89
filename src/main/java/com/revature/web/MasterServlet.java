@@ -7,12 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.revature.controllers.AuthControlller;
+import com.revature.controllers.AuthController;
 
 public class MasterServlet extends HttpServlet {
 	
-	private AuthControlller authController = new AuthControlller();
+	private AuthController authController = new AuthController();
 	
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res)
 		throws ServletException, IOException{
 		res.setContentType("application/json");
@@ -35,6 +36,7 @@ public class MasterServlet extends HttpServlet {
 		}
 	}
 	
+	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		
@@ -42,6 +44,7 @@ public class MasterServlet extends HttpServlet {
 	}
 
 	
+	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse res) 
 			throws ServletException, IOException {
 		

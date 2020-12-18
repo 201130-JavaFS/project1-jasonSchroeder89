@@ -18,7 +18,7 @@ async function login() {
     let user = {
         username:document.getElementById('username').value,
         password:document.getElementById('password').value,
-    }
+    };
 
     let response = await fetch(url + "login", {
         method:"POST",
@@ -65,11 +65,12 @@ function goWelcome() {
     else {
         document.getElementById('appView').innerHTML = "<h1>Is Manager!</h1>";
     }
-    
 }
 
-async function logout() {
-    let response = await fetch(url + "logout", {
+function logout() {
+    fetch(url + "logout", {
         method: "PUT",
         credentials:'include'});
+
+    return;
 }

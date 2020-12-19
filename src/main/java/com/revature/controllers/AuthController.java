@@ -19,6 +19,8 @@ public class AuthController {
 	public void login(HttpServletRequest req, HttpServletResponse res) throws 
 		IOException {
 		
+		System.out.println("login() is called");
+		
 		if (req.getMethod().equals("POST")) {
 			BufferedReader reader = req.getReader();
 			
@@ -48,6 +50,8 @@ public class AuthController {
 				
 				session.setAttribute("loggedIn", true);
 				
+				res.setHeader("Set-Cookie", "key=value; HttpOnly; SameSite=strict");
+				
 				res.setStatus(200);
 			}
 			
@@ -68,12 +72,13 @@ public class AuthController {
 	public void logout(HttpServletRequest req, HttpServletResponse res) 
 			throws IOException {
 		
+		System.out.println("logout() is called");
+		
 		if (req.getMethod().equals("PUT")) {
+			
 			req.getSession().invalidate();
 			
 			res.setStatus(200);
-			
-			res.getWriter().print("Logout Successful");
 		}
 	}
 }

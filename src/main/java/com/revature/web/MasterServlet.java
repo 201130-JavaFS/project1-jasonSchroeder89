@@ -39,15 +39,15 @@ public class MasterServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		
+		System.out.println("doPost() is called");
 		doGet(req, res);
 	}
-
 	
 	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse res) 
+	protected void doPut(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		
+		System.out.println("doPut() is called");
 		doGet(req, res);
 	}
 }

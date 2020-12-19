@@ -12,7 +12,7 @@ let userRole = 0;
 
 document.getElementById('loginButton').addEventListener('click', login);
 welcomeNav.addEventListener('click', goWelcome);
-logoutNav.addEventListener('click', logout);
+logoutNav.onclick = logout;
 
 async function login() {
     let user = {
@@ -55,6 +55,17 @@ async function login() {
     }
 }
 
+async function logout() {
+    let response = await fetch(url + "logout", {
+        method: "PUT",
+        credentials:'include'
+    });
+
+    if (response === 200) {
+        return;
+    }
+}
+
 function goWelcome() {
     window.location.hash = '#welcome';
     
@@ -65,12 +76,4 @@ function goWelcome() {
     else {
         document.getElementById('appView').innerHTML = "<h1>Is Manager!</h1>";
     }
-}
-
-function logout() {
-    fetch(url + "logout", {
-        method: "PUT",
-        credentials:'include'});
-
-    return;
 }

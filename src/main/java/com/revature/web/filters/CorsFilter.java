@@ -50,6 +50,8 @@ public class CorsFilter implements Filter {
 		res.setHeader("Access-Control-Allow-Credentials", "true");
 		// Credentials are allowed
 		
+		//res.setHeader("Set-Cookie", "key=value; HttpOnly; SameSite=strict");
+		
 		chain.doFilter(request, response);
 		// Continue the filter chain
 	}

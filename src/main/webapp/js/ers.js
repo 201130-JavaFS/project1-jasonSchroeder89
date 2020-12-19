@@ -1,10 +1,15 @@
-import Authenticator from './Authenticator.js';
 import App from './App.js';
+import Authenticator from './Authenticator.js';
 
-let auth = new Authenticator();
+let authenticator = new Authenticator;
 
-auth.login();
+while (true) {
+    
+    authenticator.login();
+    
+    let app = new App(authenticator.getUserType());
 
-let app = new App(auth.getUserType);
+    app.render();
 
-app.render();
+    authenticator.logout();
+}

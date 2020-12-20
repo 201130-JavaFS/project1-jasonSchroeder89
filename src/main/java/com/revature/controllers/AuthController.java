@@ -50,8 +50,6 @@ public class AuthController {
 				
 				session.setAttribute("loggedIn", true);
 				
-				res.setHeader("Set-Cookie", "key=value; HttpOnly; SameSite=strict");
-				
 				res.setStatus(200);
 			}
 			

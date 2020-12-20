@@ -1,4 +1,5 @@
 const url = 'http://localhost:8080/project-1/';
+
 const appNavBar = document.getElementById('appNavBar');
 const welcomeNav = document.getElementById('welcomeNav');
 const viewPendingNav = document.getElementById('viewPendingNav');
@@ -6,12 +7,14 @@ const addNav = document.getElementById('addNav');
 const viewPastNav = document.getElementById('viewPastNav');
 const logoutNav = document.getElementById('logoutNav');
 const appViewDiv = document.getElementById('appViewDiv');
+const loginButton = document.getElementById('loginButton');
 
 let userID = 0;
 let userRole = 0;
 
-document.getElementById('loginButton').addEventListener('click', login);
-welcomeNav.addEventListener('click', goWelcome);
+loginButton.onclick = login;
+welcomeNav.onclick = welcome;
+addNav.onclick = add;
 logoutNav.onclick = logout;
 
 async function login() {
@@ -37,7 +40,7 @@ async function login() {
             viewPastNav.setAttribute('style', 'display: block;');
             logoutNav.setAttribute('style', 'display: block;')
 
-            goWelcome();
+            welcome();
         }
         
         else {
@@ -46,7 +49,7 @@ async function login() {
             viewPendingNav.setAttribute('style', 'display: block;');
             logoutNav.setAttribute('style', 'display: block;')
 
-            goWelcome();
+            welcome();
         }
     }
 
@@ -55,38 +58,102 @@ async function login() {
     }
 }
 
-async function logout() {
-    window.location.hash = "#login";
-    
-    appNavBar.setAttribute('style', 'display: none;');
-    welcomeNav.setAttribute('style', 'display: none;');
-    viewPendingNav.setAttribute('style', 'display: none;');
-    addNav.setAttribute('style', 'display: none;');
-    viewPastNav.setAttribute('style', 'display: none;');
-    logoutNav.setAttribute('style', 'display: none;');
-
-    appViewDiv.innerHTML = `<h3>ERS Reimbursement System <br><br>Login</h3>
-    <input type="text" id="username" 
-        placeholder="Enter your username">
-    <br>
-    <br>
-    <input type="password" id="password" placeholder=
-        "Enter your password">
-    <br>
-    <br>
-    <button id='loginButton'>Login</button>`;
-}
-
-function goWelcome() {
-    window.location.hash = '#welcome';
+function welcome() {
+    document.title = "ERS - Welcome";
     
     if (userRole === 1) {
-        appViewDiv.innerHTML = "<h1>Is Employee!</h1>";
+        appViewDiv.setAttribute('style', 'text-align: left;')
+        appViewDiv.innerHTML = `<h1>Welcome to ERS Reiumbursement System!</h1>
+            <h2>Add New Request</h2><h3>Click "Add New Request" 
+            to create a new reimbursement request.</h3><h2>View Past Requests
+            </h2><h3>Click "View Past Requests" to view your previous 
+            reimbursement requests.</h3><h2>Logout</h2><h3>Click "Logout" to
+            logout of the system</h3>`;
     }
 
     else {
-        appViewDiv.innerHTML = "<h1>Is Manager!</h1>";
+        appViewDiv.setAttribute('style', 'text-align: left;')
+        appViewDiv.innerHTML = `<h1>Welcome to ERS Reiumbursement System!</h1>
+        <h2>View Pending Requests</h2><h3>Click "View Pending Requests" 
+        to view and approve/deny all pending reimbursement requests.</h3>
+        <h2>Logout</h2><h3>Click "Logout" to logout of the system</h3>`;
     }
+}
+
+async function add() {
+    document.title = "ERS - Create Request";
+
+    appViewDiv.innerHTML = `<h1>Create Reimbursement Request</h1>
+    <form id = 'addForm'>
+        <fieldset>
+            <label for="expenseType">Expense Type: </label>
+            <select id="expenseType" name="expenseType">
+                <option value="LODGING">LODGING</option>
+                <option value="TRAVEL">TRAVEL</option>
+                <option value="FOOD">FOOD</option>
+                <option value="OTHER">OTHER</option>
+            </select>
+            <br>
+            <label for="tag1">Expense Amount: </label>
+            <input type="text" id="tag1" name="tag1" placeholder=
+            "$Dollars.Cents">
+            <br>
+            <label for="expenseComments">Comments: </label>
+            <br>
+            <textarea id='textArea' name="expenseCommentsArea" rows="10" 
+                cols="30" placeholder="Comments for Finance Manager"></textarea>
+            <br>
+            <input type='submit' form='addForm' value="Submit">
+            <input type='reset' value='Resset'>
+        </fieldset>
+    </form>`
+
+    var expenseComments = document.getElementById('textArea');
+
+    resetCursor(expenseComments);
+    
+}
+
+async function logout() {
+    let response = await fetch(url + "logout", {method: 'PUT',
+        credentials:'include'});
+
+    if (response.status === 200) {
+        window.location.hash = "#login";
+    
+        appNavBar.setAttribute('style', 'display: none;');
+        welcomeNav.setAttribute('style', 'display: none;');
+        viewPendingNav.setAttribute('style', 'display: none;');
+        addNav.setAttribute('style', 'display: none;');
+        viewPastNav.setAttribute('style', 'display: none;');
+        logoutNav.setAttribute('style', 'display: none;');
+
+        appViewDiv.setAttribute('style', 'text-align: center;')
+        appViewDiv.innerHTML = `<h3>ERS Reimbursement System<br>Login</h3>
+        <input type="text" id="username" 
+            placeholder="Enter your username">
+        <br>
+        <br>
+        <input type="password" id="password" placeholder=
+            "Enter your password">
+        <br>
+        <br>
+        <button id='loginButton'>Login</button>`;
+
+        document.title = "ERS - Login";
+        document.getElementById('loginButton').addEventListener('click', login);        
+    }    
+}
+
+function resetCursor(txtElement) { 
+    if (txtElement.setSelectionRange) { 
+        txtElement.focus(); 
+        txtElement.setSelectionRange(0, 0); 
+    } else if (txtElement.createTextRange) { 
+        var range = txtElement.createTextRange();  
+        range.moveStart('character', 0); 
+        range.select(); 
+    } 
 }
 
 // function getContent(fragmentId, callback){

@@ -1,39 +1,41 @@
 package com.revature.data;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 
-import com.revature.models.LoginDTO;
+import javax.persistence.Query;
+
+import org.hibernate.Session;
+
+import com.revature.models.User;
+import com.revature.util.HibernateUtil;
 
 public class LoginDAOImp implements LoginDAO {
 
 	@Override
-	public boolean login(LoginDTO dto) {
-		try {
-			
-			Connection conn= ConnectionUtil.getConnection();
-			String sql = "select user_id, role_id from \"Users\" where "
-					+ "username=? and \"password\" = ?;";
-			PreparedStatement statement = conn.prepareStatement(sql);
-			
-			statement.setString(1, dto.getUsername());
-			statement.setString(2, dto.getPassword());
-			
-			ResultSet result = statement.executeQuery();
-			
-			if(result.next()) {
-				dto.setId(result.getInt(1));
-				dto.setRole(result.getInt(2));
-				return true;
-			}			
-		} 
+	public User login(User user) {
+		Session session = HibernateUtil.getSession();
 		
-		catch (SQLException e) {
-			e.printStackTrace();
+		String query = 
+				"FROM User WHERE username = '" + user.getUsername() + "'";
+		
+		List<User> results = session.createQuery(query).list();
+		
+		for (User u : results) {
+			System.out.print(u);
 		}
-		//if no result will return null
-		return false;
+		
+		User validUser = results.get(0);
+		
+		//HibernateUtil.closeSession();
+		
+		if (validUser != null && validUser.getPassword()
+				.equals(user.getPassword())) {
+			
+			return validUser;
+		}
+		
+		else {
+			return null;
+		}	
 	}
 }

@@ -2,16 +2,16 @@ package com.revature.services;
 
 import com.revature.data.LoginDAO;
 import com.revature.data.LoginDAOImp;
-import com.revature.models.LoginDTO;
+import com.revature.models.User;
 import com.revature.util.Encryptor;
 
 public class AuthService {
 
-	public boolean login(LoginDTO dto) {
+	public User login(User user) {
 		
-		dto.setPassword(Encryptor.hashPassword(dto.getPassword()));
+		user.setPassword(Encryptor.hashPassword(user.getPassword()));
 		LoginDAO loginDAO = new LoginDAOImp();
 		
-		return loginDAO.login(dto);
+		return loginDAO.login(user);
 	}
 }

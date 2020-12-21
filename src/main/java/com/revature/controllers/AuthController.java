@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.LoginDTO;
+import com.revature.models.User;
 import com.revature.services.AuthService;
 
 public class AuthController {
@@ -18,8 +18,6 @@ public class AuthController {
 	
 	public void login(HttpServletRequest req, HttpServletResponse res) throws 
 		IOException {
-		
-		System.out.println("login() is called");
 		
 		if (req.getMethod().equals("POST")) {
 			BufferedReader reader = req.getReader();
@@ -36,11 +34,17 @@ public class AuthController {
 			
 			String body = new String(sb);
 			
-			LoginDTO loginDTO = mapper.readValue(body, LoginDTO.class);
+			System.out.println(body);
 			
-			if (loginService.login(loginDTO)) {
+			User user = mapper.readValue(body, User.class);
+			
+			System.out.println(user.getUsername());
+			
+			User validUser = loginService.login(user);
+			
+			if (validUser.getUsername().equals(user.getUsername())) {
 				
-				int[] ids = {loginDTO.getId(), loginDTO.getRole()};
+				int[] ids = {validUser.getUser_id(), validUser.getRole_id()};
 				
 				String json = mapper.writeValueAsString(ids);
 				
@@ -69,8 +73,6 @@ public class AuthController {
 
 	public void logout(HttpServletRequest req, HttpServletResponse res) 
 			throws IOException {
-		
-		System.out.println("logout() is called");
 		
 		if (req.getMethod().equals("PUT")) {
 			

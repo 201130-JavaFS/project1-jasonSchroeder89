@@ -7,11 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.revature.controllers.AddController;
 import com.revature.controllers.AuthController;
 
 public class MasterServlet extends HttpServlet {
 	
-	private AuthController authController = new AuthController();
+	private final AuthController authController = new AuthController();
+	private final AddController addController = new AddController();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -30,6 +32,10 @@ public class MasterServlet extends HttpServlet {
 			authController.login(req, res);
 			break;
 			
+		case "add":
+			addController.addRequest(req, res);
+			break;
+			
 		case "logout":
 			authController.logout(req, res);
 			break;
@@ -39,7 +45,7 @@ public class MasterServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		System.out.println("doPost() is called");
+		
 		doGet(req, res);
 	}
 	
@@ -47,7 +53,6 @@ public class MasterServlet extends HttpServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		
-		System.out.println("doPut() is called");
 		doGet(req, res);
 	}
 }

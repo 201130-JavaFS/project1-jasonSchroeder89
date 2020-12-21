@@ -1,8 +1,8 @@
 package com.revature.data;
 
-import com.revature.models.LoginDTO;
+import com.revature.models.User;
 
 public interface LoginDAO {
 
-	public boolean login(LoginDTO dto);
+	public User login(User user);
 }

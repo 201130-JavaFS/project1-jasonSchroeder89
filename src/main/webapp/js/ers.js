@@ -54,7 +54,7 @@ async function login() {
     }
 
     else {
-        document.getElementById('body').innerHTML='<h1>It Fails!';
+        document.getElementById('appBody').innerHTML='<h1>It Fails!';
     }
 }
 
@@ -84,7 +84,7 @@ async function add() {
     document.title = "ERS - Create Request";
 
     appViewDiv.innerHTML = `<h1>Create Reimbursement Request</h1>
-    <form id = 'addForm'>
+    <form id = 'addForm' name = 'addForm' onsubmit = event.preventDefault();>
         <fieldset>
             <label for="expenseType">Expense Type: </label>
             <select id="expenseType" name="expenseType">
@@ -94,24 +94,59 @@ async function add() {
                 <option value="OTHER">OTHER</option>
             </select>
             <br>
-            <label for="tag1">Expense Amount: </label>
-            <input type="text" id="tag1" name="tag1" placeholder=
-            "$Dollars.Cents">
+            <label for="tag1">Expense Amount($): </label>
+            <input type="text" id="expenseAmount" name="expenseAmount" 
+                placeholder="Dollars.Cents">
             <br>
             <label for="expenseComments">Comments: </label>
             <br>
             <textarea id='textArea' name="expenseCommentsArea" rows="10" 
                 cols="30" placeholder="Comments for Finance Manager"></textarea>
             <br>
-            <input type='submit' form='addForm' value="Submit">
-            <input type='reset' value='Resset'>
+            <input id='submitButton' type='submit' form='addForm' 
+                value="Submit">
+            <input type='reset' value='Reset'>
         </fieldset>
-    </form>`
+    </form>
+    <p id='requestStatus'>Test</p>`;
 
-    var expenseComments = document.getElementById('textArea');
-
-    resetCursor(expenseComments);
+    let status = document.getElementById('requestStatus');
     
+    document.getElementById('submitButton').onclick = async () => {
+        let amount = document.getElementById('expenseAmount').value;
+        if (amount == "") {
+            alert("Expense Amount is required");
+            return false;
+        }
+
+        else if (isNaN(amount) || amount <= 0.0) {
+            alert('Expense Amount must be a valid numeric value greater than ' 
+                + '"$0.00"');
+            return false;
+        }
+        
+        status.innerText = 'PROCESSING';
+
+        let reimbursement = {
+            userId : userID,
+            type: document.getElementById('expenseType').value,
+            amount: document.getElementById('expenseAmount').value,
+            comments: document.getElementById('expenseComments').value,
+        }
+
+        let response = await fetch(url + "add", {
+            method:"POST",
+            body:JSON.stringify(reimbursement),
+            credentials:'include'});
+
+        if (response.status === 200) {
+            status.innerText = 'REQUEST SUBMITTED';
+        }
+
+        else {
+            status.innerText = 'REQUEST FAILED';
+        }
+    }
 }
 
 async function logout() {
@@ -143,17 +178,6 @@ async function logout() {
         document.title = "ERS - Login";
         document.getElementById('loginButton').addEventListener('click', login);        
     }    
-}
-
-function resetCursor(txtElement) { 
-    if (txtElement.setSelectionRange) { 
-        txtElement.focus(); 
-        txtElement.setSelectionRange(0, 0); 
-    } else if (txtElement.createTextRange) { 
-        var range = txtElement.createTextRange();  
-        range.moveStart('character', 0); 
-        range.select(); 
-    } 
 }
 
 // function getContent(fragmentId, callback){

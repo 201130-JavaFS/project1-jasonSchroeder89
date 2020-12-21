@@ -84,33 +84,40 @@ async function add() {
     document.title = "ERS - Create Request";
 
     appViewDiv.innerHTML = `<h1>Create Reimbursement Request</h1>
-    <form id = 'addForm' name = 'addForm' onsubmit = event.preventDefault();>
-        <fieldset>
-            <label for="expenseType">Expense Type: </label>
-            <select id="expenseType" name="expenseType">
-                <option value="LODGING">LODGING</option>
-                <option value="TRAVEL">TRAVEL</option>
-                <option value="FOOD">FOOD</option>
-                <option value="OTHER">OTHER</option>
-            </select>
-            <br>
-            <label for="tag1">Expense Amount($): </label>
-            <input type="text" id="expenseAmount" name="expenseAmount" 
-                placeholder="Dollars.Cents">
-            <br>
-            <label for="expenseComments">Comments: </label>
-            <br>
-            <textarea id='textArea' name="expenseCommentsArea" rows="10" 
-                cols="30" placeholder="Comments for Finance Manager"></textarea>
-            <br>
-            <input id='submitButton' type='submit' form='addForm' 
-                value="Submit">
-            <input type='reset' value='Reset'>
-        </fieldset>
-    </form>
-    <p id='requestStatus'>Test</p>`;
+    <div id = 'addForm' name = 'addForm' onsubmit = event.preventDefault();>
+        <label for="expenseType">Expense Type: </label>
+        <select id="expenseType" name="expenseType">
+            <option value="1">LODGING</option>
+            <option value="2">TRAVEL</option>
+            <option value="3">FOOD</option>
+            <option value="4">OTHER</option>
+        </select>
+        <br>
+        <label for="tag1">Expense Amount($): </label>
+        <input type="text" id="expenseAmount" name="expenseAmount" 
+            placeholder="Dollars.Cents">
+        <br>
+        <label for="expenseComments">Comments: </label>
+        <br>
+        <textarea id='expenseComments' maxlenght="300" name="expenseCommentsArea" rows="10" 
+            cols="30" placeholder="Comments for Finance Manager"></textarea>
+        <br>
+        <input id='submitButton'type='submit' value="Submit">
+        <input id='resetButton' type='reset' value='Reset'>
+    </div>
+    <p id='requestStatus'></p>`;
 
     let status = document.getElementById('requestStatus');
+    let expenseType = document.getElementById('expenseType');
+    let expenseAmount = document.getElementById('expenseAmount');
+    let expenseComments = document.getElementById('expenseComments');
+
+    document.getElementById('resetButton').onclick = async () => {
+        expenseType.value = "LODGING";
+        expenseAmount.value = '';
+        expenseComments.value = '';
+        status.innerText = '';
+    }
     
     document.getElementById('submitButton').onclick = async () => {
         let amount = document.getElementById('expenseAmount').value;
@@ -125,13 +132,23 @@ async function add() {
             return false;
         }
         
-        status.innerText = 'PROCESSING';
+        status.innerText = 'Staus: PROCESSING';
+
+        let time = new Date();
+
+        let timeStamp = ""  + time.getDate() + "/" 
+        + (time.getMonth()+1)  + "/" 
+        + time.getFullYear() + " @ "  
+        + time.getHours() + ":"  
+        + time.getMinutes() + ":" 
+        + time.getSeconds();
 
         let reimbursement = {
-            userId : userID,
-            type: document.getElementById('expenseType').value,
-            amount: document.getElementById('expenseAmount').value,
-            comments: document.getElementById('expenseComments').value,
+            author : userID,
+            time_submitted: timeStamp,
+            type_id: document.getElementById('expenseType').value,
+            reimb_amount: document.getElementById('expenseAmount').value,
+            description: document.getElementById('expenseComments').value,
         }
 
         let response = await fetch(url + "add", {

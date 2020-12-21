@@ -1,6 +1,6 @@
 package com.revature.util;
 
-public class Encryptor {
+public class EncryptorUtil {
 
 	public static String hashPassword(String password) {
 		StringBuilder hash = new StringBuilder();

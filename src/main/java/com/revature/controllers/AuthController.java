@@ -34,11 +34,7 @@ public class AuthController {
 			
 			String body = new String(sb);
 			
-			System.out.println(body);
-			
 			User user = mapper.readValue(body, User.class);
-			
-			System.out.println(user.getUsername());
 			
 			User validUser = loginService.login(user);
 			

@@ -39,6 +39,9 @@ public class MasterServlet extends HttpServlet {
 		case "logout":
 			authController.logout(req, res);
 			break;
+			
+		default:
+			break;
 		}
 	}
 	

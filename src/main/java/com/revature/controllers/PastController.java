@@ -2,21 +2,23 @@ package com.revature.controllers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Reimbursement;
-import com.revature.services.AddService;
+import com.revature.models.User;
+import com.revature.services.PastService;
 
-public class AddController {
+public class PastController {
 	
 	private ObjectMapper mapper = new ObjectMapper();
-	private AddService addService = new AddService();
-
-	public void addRequest(HttpServletRequest req, HttpServletResponse res) 
-			throws IOException {
+	private PastService pastService = new PastService();
+	
+	public void getPastRequests(HttpServletRequest req, 
+			HttpServletResponse res) throws IOException {
 		
 		if (req.getMethod().equals("POST")) {
 			BufferedReader reader = req.getReader();
@@ -31,23 +33,18 @@ public class AddController {
 				line = reader.readLine();
 			}
 			
-			String body = new String(sb);			
+			String body = new String(sb);
 			
-			Reimbursement reimbursement = mapper.readValue(body, 
-					Reimbursement.class);
+			User user = mapper.readValue(body, User.class);
 			
-			if (addService.addRequest(reimbursement)) {
-				
-				res.getWriter().print("Request submitted");
-				
-				res.setStatus(200);
-			}
+			List<Reimbursement> requests = pastService.getRequests(
+					user.getUser_id());
 			
-			else {
-				res.getWriter().print("Add Request Failed");
-				
-				res.setStatus(500);
-			}
-		}		
+			String json = mapper.writeValueAsString(requests);
+			
+			res.getWriter().print(json);
+			
+			res.setStatus(200);
+		}	
 	}	
 }

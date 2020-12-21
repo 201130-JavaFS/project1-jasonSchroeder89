@@ -1,9 +1,5 @@
 package com.revature.data;
 
-import java.util.List;
-
-import javax.persistence.Query;
-
 import org.hibernate.Session;
 
 import com.revature.models.User;

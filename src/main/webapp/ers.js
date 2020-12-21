@@ -15,6 +15,7 @@ let userRole = 0;
 loginButton.onclick = login;
 welcomeNav.onclick = welcome;
 addNav.onclick = add;
+viewPastNav.onclick = viewPast;
 logoutNav.onclick = logout;
 
 async function login() {
@@ -84,7 +85,7 @@ async function add() {
     document.title = "ERS - Create Request";
 
     appViewDiv.innerHTML = `<h1>Create Reimbursement Request</h1>
-    <div id = 'addForm' name = 'addForm' onsubmit = event.preventDefault();>
+    <div id = 'addForm' name = 'addForm'>
         <label for="expenseType">Expense Type: </label>
         <select id="expenseType" name="expenseType">
             <option value="1">LODGING</option>
@@ -163,6 +164,71 @@ async function add() {
         else {
             status.innerText = 'REQUEST FAILED';
         }
+    }
+}
+
+async function viewPast() {
+    document.title = "ERS - View Past Requests";
+
+    let user = {
+        user_id: userID
+    };
+
+    let response = await fetch(url + "past", {
+        method: 'POST',
+        body: JSON.stringify(user),
+        credentials:'include'
+    });
+
+    if (response.status === 200) {
+        appViewDiv.innerHTML = `<h1>Reimbursement Requests</h1>
+        <div id = 'requestTableDiv'>
+            <table id = 'requestTable'>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Submitted</th>
+                    <th>Expense Type</th>
+                    <th>Amount($)</th>
+                    <th>Status</th>
+                    <th>Resolved By</th>
+                </tr>
+            </table>
+        </div>`;
+
+        let data = await response.json();
+
+        let requestTable = document.getElementById('requestTable');
+        
+        for (let i = 0; i < data.length; i++) {
+            let tr = document.createElement('tr');
+            
+            let td1 = document.createElement('td');
+            let td2 = document.createElement('td');
+            let td3 = document.createElement('td');
+            let td4 = document.createElement('td');
+            let td5 = document.createElement('td');
+            let td6 = document.createElement('td');
+
+            td1.innerText = data[i].reimb_id;
+            td2.innerText = data[i].time_submitted;
+            td3.innerText = data[i].type_id;
+            td4.innerText = data[i].reimb_amount;
+            td5.innerText = data[i].status_id;
+            td6.innerText = data[i].resolver;
+
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tr.appendChild(td5);
+            tr.appendChild(td6);
+
+            requestTable.appendChild(tr);
+        }
+    }
+
+    else {
+        appViewDiv.innerHTML = "<h1>Request Failed!</h1>";
     }
 }
 

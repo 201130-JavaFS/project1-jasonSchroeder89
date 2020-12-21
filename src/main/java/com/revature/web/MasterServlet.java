@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.revature.controllers.AddController;
 import com.revature.controllers.AuthController;
+import com.revature.controllers.PastController;
 
 public class MasterServlet extends HttpServlet {
 	
 	private final AuthController authController = new AuthController();
 	private final AddController addController = new AddController();
+	private final PastController pastController = new PastController();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -34,6 +36,10 @@ public class MasterServlet extends HttpServlet {
 			
 		case "add":
 			addController.addRequest(req, res);
+			break;
+			
+		case "past":
+			pastController.getPastRequests(req, res);
 			break;
 			
 		case "logout":

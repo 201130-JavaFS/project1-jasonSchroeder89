@@ -48,6 +48,7 @@ async function login() {
             appNavBar.setAttribute('style', 'display: block;');
             welcomeNav.setAttribute('style', 'display: block;');
             viewPendingNav.setAttribute('style', 'display: block;');
+            viewPastNav.setAttribute('style', 'display: block;');
             logoutNav.setAttribute('style', 'display: block;')
 
             welcome();
@@ -171,7 +172,8 @@ async function viewPast() {
     document.title = "ERS - View Past Requests";
 
     let user = {
-        user_id: userID
+        user_id: userID,
+        role_id: userRole
     };
 
     let response = await fetch(url + "past", {
@@ -181,49 +183,104 @@ async function viewPast() {
     });
 
     if (response.status === 200) {
-        appViewDiv.innerHTML = `<h1>Reimbursement Requests</h1>
-        <div id = 'requestTableDiv'>
-            <table id = 'requestTable'>
-                <tr>
-                    <th>Request ID</th>
-                    <th>Submitted</th>
-                    <th>Expense Type</th>
-                    <th>Amount($)</th>
-                    <th>Status</th>
-                    <th>Resolved By</th>
-                </tr>
-            </table>
-        </div>`;
+        if (userRole == 1) {
+            appViewDiv.innerHTML = `<h1>Reimbursement Requests</h1>
+            <div id = 'requestTableDiv'>
+                <table id = 'requestTable'>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Submitted</th>
+                        <th>Expense Type</th>
+                        <th>Amount($)</th>
+                        <th>Status</th>
+                        <th>Resolved By</th>
+                    </tr>
+                </table>
+            </div>`;
 
-        let data = await response.json();
+            let data = await response.json();
 
-        let requestTable = document.getElementById('requestTable');
-        
-        for (let i = 0; i < data.length; i++) {
-            let tr = document.createElement('tr');
+            let requestTable = document.getElementById('requestTable');
             
-            let td1 = document.createElement('td');
-            let td2 = document.createElement('td');
-            let td3 = document.createElement('td');
-            let td4 = document.createElement('td');
-            let td5 = document.createElement('td');
-            let td6 = document.createElement('td');
+            for (let i = 0; i < data.length; i++) {
+                let tr = document.createElement('tr');
+                
+                let td1 = document.createElement('td');
+                let td2 = document.createElement('td');
+                let td3 = document.createElement('td');
+                let td4 = document.createElement('td');
+                let td5 = document.createElement('td');
+                let td6 = document.createElement('td');
 
-            td1.innerText = data[i].reimb_id;
-            td2.innerText = data[i].time_submitted;
-            td3.innerText = data[i].type_id;
-            td4.innerText = data[i].reimb_amount;
-            td5.innerText = data[i].status_id;
-            td6.innerText = data[i].resolver;
+                td1.innerText = data[i].reimb_id;
+                td2.innerText = data[i].time_submitted;
+                td3.innerText = data[i].type_id;
+                td4.innerText = data[i].reimb_amount;
+                td5.innerText = data[i].status_id;
+                td6.innerText = data[i].resolver;
 
-            tr.appendChild(td1);
-            tr.appendChild(td2);
-            tr.appendChild(td3);
-            tr.appendChild(td4);
-            tr.appendChild(td5);
-            tr.appendChild(td6);
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+                tr.appendChild(td6);
 
-            requestTable.appendChild(tr);
+                requestTable.appendChild(tr);
+            }
+        }
+
+        else {
+            appViewDiv.innerHTML = `<h1>Reimbursement Requests</h1>
+            <div id = 'requestTableDiv'>
+                <table id = 'requestTable'>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Author</th>
+                        <th>Submitted</th>
+                        <th>Expense Type</th>
+                        <th>Amount($)</th>
+                        <th>Status</th>
+                        <th>Resolved By</th>
+                    </tr>
+                </table>
+            </div>`;
+
+            let data = await response.json();
+
+            console.log(data);
+
+            let requestTable = document.getElementById('requestTable');
+            
+            for (let i = 0; i < data.length; i++) {
+                let tr = document.createElement('tr');
+                
+                let td1 = document.createElement('td');
+                let td2 = document.createElement('td');
+                let td3 = document.createElement('td');
+                let td4 = document.createElement('td');
+                let td5 = document.createElement('td');
+                let td6 = document.createElement('td');
+                let td7 = document.createElement('td');
+
+                td1.innerText = data[i].reimb_id;
+                td2.innerText = data[i].author;
+                td3.innerText = data[i].time_submitted;
+                td4.innerText = data[i].type_id;
+                td5.innerText = data[i].reimb_amount;
+                td6.innerText = data[i].status_id;
+                td7.innerText = data[i].resolver;
+
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tr.appendChild(td5);
+                tr.appendChild(td6);
+                tr.appendChild(td7);
+
+                requestTable.appendChild(tr);
+            }
         }
     }
 
@@ -262,34 +319,3 @@ async function logout() {
         document.getElementById('loginButton').addEventListener('click', login);        
     }    
 }
-
-// function getContent(fragmentId, callback){
-
-//     // lets do some custom content for each page of your website
-//     var pages = {
-//         home: "This is the Home page. Welcome to my site.",
-//         about: "This page will describe what my site is about",
-//         contact: "Contact me on this page if you have any questions"
-//     };
-
-//     // look up what fragment you are searching for in the object
-//     callback( pages[fragmentId]);
-// }
-
-// function loadContent(){
-
-//     var contentDiv = document.getElementById("app"),
-//     fragmentId = location.hash.substr(1);
-
-//     getContent(fragmentId, function (content) {
-//         contentDiv.innerHTML = content;
-//     });
-// }
-
-// if(!location.hash) {
-//     location.hash = "#home";
-// }
-
-// loadContent();
-
-// window.addEventListener("hashchange", loadContent)

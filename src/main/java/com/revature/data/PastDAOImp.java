@@ -22,4 +22,17 @@ public class PastDAOImp implements PastDAO {
 		return requests;
 	}
 
+	@Override
+	public List<Reimbursement> getAllRequests() {
+		Session session = HibernateUtil.getSession();
+		
+		String query = "FROM Reimbursement";
+		
+		List<Reimbursement> requests = session.createQuery(query).list();
+		
+		HibernateUtil.closeSession();
+		
+		return requests;
+	}
+
 }

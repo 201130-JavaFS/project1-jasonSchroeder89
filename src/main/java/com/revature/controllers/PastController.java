@@ -37,8 +37,7 @@ public class PastController {
 			
 			User user = mapper.readValue(body, User.class);
 			
-			List<Reimbursement> requests = pastService.getRequests(
-					user.getUser_id());
+			List<Reimbursement> requests = pastService.getRequests(user);
 			
 			String json = mapper.writeValueAsString(requests);
 			

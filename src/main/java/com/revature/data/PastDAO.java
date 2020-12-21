@@ -7,4 +7,6 @@ import com.revature.models.Reimbursement;
 public interface PastDAO {
 	
 	public List<Reimbursement> getRequests(int userId);
+
+	public List<Reimbursement> getAllRequests();
 }

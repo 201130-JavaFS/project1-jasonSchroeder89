@@ -3,6 +3,7 @@ body {
     margin: 0 0 0 var(--nav-width);
     font-family: 'Quicksand', sans-serif;
     font-size: 18px;
+    background: gray;
 }
 
 /* Creates a full-height, left-mounted navigation menu */
@@ -15,7 +16,6 @@ body {
     background: #222222;
 }
 
-/* Making these look fantastic */
 .nav__link {
     display: block;
     padding: 12px 18px;
@@ -33,6 +33,36 @@ body {
     text-align: center;
     line-height: 1.5;
     font-weight: 500;
+    
+}
+
+h1 {
+    color: rgb(10, 87, 231);
+}
+
+h2 {
+    color: yellowgreen;
+}
+
+h3 {
+    color: whitesmoke;
+}
+
+td {
+    text-align:center;
+    width: 30ch;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+th {
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+table {
+    background-color: rosybrown;
 }
 
 /* The 'dcode' green always needs to make an appearance */

@@ -355,12 +355,11 @@ async function viewPast() {
                 <table id = 'requestTable'>
                     <tr>
                         <th>Request ID</th>
-                        <th>Author</th>
                         <th>Submitted</th>
                         <th>Expense Type</th>
                         <th>Amount($)</th>
+                        <th>Comments</th>
                         <th>Status</th>
-                        <th>Resolved By</th>
                     </tr>
                 </table>
             </div>`;
@@ -380,7 +379,6 @@ async function viewPast() {
                 let td4 = document.createElement('td');
                 let td5 = document.createElement('td');
                 let td6 = document.createElement('td');
-                let td7 = document.createElement('td');
 
                 td1.innerText = data[i].reimb_id;
                 td2.innerText = data[i].time_submitted;
@@ -388,7 +386,6 @@ async function viewPast() {
                 td4.innerText = data[i].reimb_amount;
                 td5.innerText = data[i].description;
                 td6.innerText = data[i].status_id;
-                td7.innerText = data[i].resolver;
 
                 tr.appendChild(td1);
                 tr.appendChild(td2);
@@ -396,7 +393,6 @@ async function viewPast() {
                 tr.appendChild(td4);
                 tr.appendChild(td5);
                 tr.appendChild(td6);
-                tr.appendChild(td7);
 
                 requestTable.appendChild(tr);
             }
@@ -423,7 +419,8 @@ async function logout() {
         logoutNav.setAttribute('style', 'display: none;');
 
         appViewDiv.setAttribute('style', 'text-align: center;')
-        appViewDiv.innerHTML = `<h3>ERS Reimbursement System<br>Login</h3>
+        appViewDiv.innerHTML = `<h1>ERS Reimbursement System</h1>
+        <h2>Login</h2>
         <input type="text" id="username" 
             placeholder="Enter your username">
         <br>

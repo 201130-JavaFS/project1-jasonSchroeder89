@@ -39,20 +39,7 @@ public class AuthController {
 			
 			User validUser = loginService.login(user);
 			
-			if (validUser.getUsername().equals(user.getUsername())) {
-				
-				String json = mapper.writeValueAsString(validUser);
-				
-				res.getWriter().print(json);
-				
-				HttpSession session = req.getSession();
-				
-				session.setAttribute("loggedIn", true);
-				
-				res.setStatus(200);
-			}
-			
-			else {
+			if (validUser == null) {
 				HttpSession session = req.getSession(false);
 				
 				if (session != null) {
@@ -63,6 +50,32 @@ public class AuthController {
 				
 				res.getWriter().print("Login Failed");
 			}
+			
+			else {
+				if (validUser.getUsername().equals(user.getUsername())) {
+					String json = mapper.writeValueAsString(validUser);
+					
+					res.getWriter().print(json);
+					
+					HttpSession session = req.getSession();
+					
+					session.setAttribute("loggedIn", true);
+					
+					res.setStatus(200);
+				}
+				
+				else {
+					HttpSession session = req.getSession(false);
+					
+					if (session != null) {
+						session.invalidate();
+					}
+					
+					res.setStatus(401);
+					
+					res.getWriter().print("Login Failed");
+				}			
+			}			
 		}
 	}
 

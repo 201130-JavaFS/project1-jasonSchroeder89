@@ -8,6 +8,7 @@ const viewPastNav = document.getElementById('viewPastNav');
 const logoutNav = document.getElementById('logoutNav');
 const appViewDiv = document.getElementById('appViewDiv');
 const loginButton = document.getElementById('loginButton');
+const loginError = document.getElementById('loginError');
 
 let userID = 0;
 let userRole = 0;
@@ -58,7 +59,7 @@ async function login() {
     }
 
     else {
-        document.getElementById('appBody').innerHTML='<h1>It Fails!';
+        loginError.innerText = 'Error: Please enter valid credentials';
     }
 }
 
@@ -80,7 +81,9 @@ function welcome() {
         appViewDiv.innerHTML = `<h1>Welcome to ERS Reiumbursement System!</h1>
         <h2>View Pending Requests</h2><h3>Click "View Pending Requests" 
         to view and approve/deny all pending reimbursement requests.</h3>
-        <h2>Logout</h2><h3>Click "Logout" to logout of the system</h3>`;
+        <h3><h2>View Past Requests</h2><h3>Click "View Past Requests" to view 
+        all previous reimbursement requests.</h3><h2>Logout</h2><h3>Click 
+        "Logout" to logout of the system</h3>`;
     }
 }
 
@@ -429,7 +432,8 @@ async function logout() {
             "Enter your password">
         <br>
         <br>
-        <button id='loginButton'>Login</button>`;
+        <button id='loginButton'>Login</button>
+        <p id="loginError"></p>`;
 
         document.title = "ERS - Login";
         document.getElementById('loginButton').addEventListener('click', login);        

@@ -14,18 +14,24 @@ public class LoginDAOImp implements LoginDAO {
 		String query = 
 				"FROM User WHERE username = '" + user.getUsername() + "'";
 		
-		User validUser = (User) session.createQuery(query).getSingleResult();
-		
-		HibernateUtil.closeSession();
-		
-		if (validUser != null && validUser.getPassword()
-				.equals(user.getPassword())) {
+		try {
+			User validUser = (User) session.createQuery(query).getSingleResult();
 			
-			return validUser;
+			HibernateUtil.closeSession();
+			
+			if (validUser != null && validUser.getPassword()
+					.equals(user.getPassword())) {
+				
+				return validUser;
+			}
+			
+			else {
+				return null;
+			}
 		}
 		
-		else {
+		catch (Exception e) {
 			return null;
-		}	
+		}			
 	}
 }

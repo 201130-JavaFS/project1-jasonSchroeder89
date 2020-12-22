@@ -33,8 +33,8 @@ async function login() {
 
     if (response.status === 200) {
         let validUser = await response.json();
-        userID = validUser[0];
-        userRole = validUser[1];
+        userID = validUser.user_id;
+        userRole = validUser.role_id;
 
         if (userRole === 1) {
             appNavBar.setAttribute('style', 'display: block;');

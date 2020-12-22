@@ -12,6 +12,10 @@ public class AuthService {
 		user.setPassword(EncryptorUtil.hashPassword(user.getPassword()));
 		LoginDAO loginDAO = new LoginDAOImp();
 		
-		return loginDAO.login(user);
+		User validUser = loginDAO.login(user);
+		
+		System.out.println(validUser);
+		
+		return validUser;
 	}
 }

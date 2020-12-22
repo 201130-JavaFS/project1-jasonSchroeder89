@@ -40,9 +40,7 @@ public class AuthController {
 			
 			if (validUser.getUsername().equals(user.getUsername())) {
 				
-				int[] ids = {validUser.getUser_id(), validUser.getRole_id()};
-				
-				String json = mapper.writeValueAsString(ids);
+				String json = mapper.writeValueAsString(validUser);
 				
 				res.getWriter().print(json);
 				

@@ -12,6 +12,7 @@ const loginButton = document.getElementById('loginButton');
 let userID = 0;
 let userRole = 0;
 
+
 loginButton.onclick = login;
 welcomeNav.onclick = welcome;
 addNav.onclick = add;
@@ -312,7 +313,6 @@ async function viewPast() {
                         <th>Amount($)</th>
                         <th>Comments</th>
                         <th>Status</th>
-                        <th>Resolved By</th>
                     </tr>
                 </table>
             </div>`;
@@ -330,7 +330,6 @@ async function viewPast() {
                 let td4 = document.createElement('td');
                 let td5 = document.createElement('td');
                 let td6 = document.createElement('td');
-                let td7 = document.createElement('td');
 
                 td1.innerText = data[i].reimb_id;
                 td2.innerText = data[i].time_submitted;
@@ -338,7 +337,6 @@ async function viewPast() {
                 td4.innerText = data[i].reimb_amount;
                 td5.innerText = data[i].description;
                 td6.innerText = data[i].status_id;
-                td7.innerText = data[i].resolver;
 
                 tr.appendChild(td1);
                 tr.appendChild(td2);
@@ -346,7 +344,6 @@ async function viewPast() {
                 tr.appendChild(td4);
                 tr.appendChild(td5);
                 tr.appendChild(td6);
-                tr.appendChild(td7);
 
                 requestTable.appendChild(tr);
             }

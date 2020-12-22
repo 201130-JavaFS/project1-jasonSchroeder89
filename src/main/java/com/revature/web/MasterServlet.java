@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.revature.controllers.AddController;
 import com.revature.controllers.AuthController;
 import com.revature.controllers.PastController;
@@ -21,14 +24,17 @@ public class MasterServlet extends HttpServlet {
 	private final PendingController pendingController = new PendingController();
 	private final ResolveController resolveController = new ResolveController();
 	
+	private static final Logger logger = LogManager.getLogger(
+			MasterServlet.class);
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res)
 		throws ServletException, IOException{
+		
+		logger.info("GET request received");
+		logger.error("Test");
 		res.setContentType("application/json");
-		// By default tomcat will send back a successful status code if it finds a
-		// servlet method.
-		// Because all requests will hit this method, we are defaulting to not found and
-		// will override for success requests.
+		
 		res.setStatus(404);
 		
 		final String URI = req.getRequestURI().replace("/project-1/", "");
@@ -66,14 +72,14 @@ public class MasterServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		
+		logger.info("POST request received");
 		doGet(req, res);
 	}
 	
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		
+		logger.info("PUT request receveived");
 		doGet(req, res);
 	}
 }

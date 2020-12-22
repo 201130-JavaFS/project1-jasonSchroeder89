@@ -10,12 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.revature.controllers.AddController;
 import com.revature.controllers.AuthController;
 import com.revature.controllers.PastController;
+import com.revature.controllers.PendingController;
+import com.revature.controllers.ResolveController;
 
 public class MasterServlet extends HttpServlet {
 	
 	private final AuthController authController = new AuthController();
 	private final AddController addController = new AddController();
 	private final PastController pastController = new PastController();
+	private final PendingController pendingController = new PendingController();
+	private final ResolveController resolveController = new ResolveController();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res)
@@ -36,6 +40,14 @@ public class MasterServlet extends HttpServlet {
 			
 		case "add":
 			addController.addRequest(req, res);
+			break;
+			
+		case "pending":
+			pendingController.getPending(res);
+			break;
+			
+		case "resolve":
+			resolveController.resolveRequest(req, res);
 			break;
 			
 		case "past":

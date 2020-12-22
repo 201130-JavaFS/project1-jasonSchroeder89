@@ -17,6 +17,7 @@ welcomeNav.onclick = welcome;
 addNav.onclick = add;
 viewPastNav.onclick = viewPast;
 logoutNav.onclick = logout;
+viewPendingNav.onclick = resolvePending;
 
 async function login() {
     let user = {
@@ -79,6 +80,123 @@ function welcome() {
         <h2>View Pending Requests</h2><h3>Click "View Pending Requests" 
         to view and approve/deny all pending reimbursement requests.</h3>
         <h2>Logout</h2><h3>Click "Logout" to logout of the system</h3>`;
+    }
+}
+
+async function resolvePending() {
+    document.title = "ERS - Resolve Pending Requests";
+
+    let response = await fetch(url + "pending", {
+        method: 'GET',
+        credentials:'include'
+    });
+
+    if (response.status === 200) {
+        appViewDiv.innerHTML = `<h1>Reimbursement Requests</h1>
+        <div id = 'requestTableDiv'>
+            <table id = 'requestTable'>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Submitted</th>
+                    <th>Requested By</th>
+                    <th>Expense Type</th>
+                    <th>Amount($)</th>
+                    <th>Requestor Comments</th>
+                </tr>
+            </table>
+        </div>`;
+
+        let data = await response.json();
+
+        let requestTable = document.getElementById('requestTable');
+
+        for (let i = 0; i < data.length; i++) {
+            let tr = document.createElement('tr');
+            
+            let td1 = document.createElement('td');
+            let td2 = document.createElement('td');
+            let td3 = document.createElement('td');
+            let td4 = document.createElement('td');
+            let td5 = document.createElement('td');
+            let td6 = document.createElement('td');
+            let td7 = document.createElement('td');
+            let td8 = document.createElement('td');
+
+            td1.innerText = data[i].reimb_id;
+            td2.innerText = data[i].time_submitted;
+            td3.innerText = data[i].author;
+            td4.innerText = data[i].type_id;
+            td5.innerText = data[i].reimb_amount;
+            td6.innerText = data[i].description;
+
+            td7.innerHTML = `<button type="button">Approve</button>`;
+            td8.innerHTML = `<button type="button"> Deny </button>`;
+
+            td7.addEventListener('click', async () => {
+                let time = new Date();
+
+                let timeStamp = ""  + time.getDate() + "/" 
+                + (time.getMonth()+1)  + "/" 
+                + time.getFullYear() + " @ "  
+                + time.getHours() + ":"  
+                + time.getMinutes() + ":" 
+                + time.getSeconds();
+                
+                let approval = {
+                    resolver: userID,
+                    time_resolved: timeStamp,
+                    reimb_id: data[i].reimb_id,
+                    status_id: 2
+                };
+            
+                let response = await fetch(url + "resolve", {
+                    method:"PUT",
+                    body:JSON.stringify(approval),
+                    credentials:'include'});
+            
+                if (response.status === 200) {
+                    resolvePending();
+                }
+            });
+            
+            td8.addEventListener('click', async () => {
+                let time = new Date();
+
+                let timeStamp = ""  + time.getDate() + "/" 
+                + (time.getMonth()+1)  + "/" 
+                + time.getFullYear() + " @ "  
+                + time.getHours() + ":"  
+                + time.getMinutes() + ":" 
+                + time.getSeconds();
+                
+                let denial = {
+                    resolver: userID,
+                    time_resolved: timeStamp,
+                    reimb_id: data[i].reimb_id,
+                    status_id: 3
+                };
+            
+                let response = await fetch(url + "resolve", {
+                    method:"PUT",
+                    body:JSON.stringify(denial),
+                    credentials:'include'});
+            
+                if (response.status === 200) {
+                    resolvePending();
+                }
+            });
+
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tr.appendChild(td5);
+            tr.appendChild(td6);
+            tr.appendChild(td7);
+            tr.appendChild(td8);
+
+            requestTable.appendChild(tr);
+        }
     }
 }
 
@@ -192,6 +310,7 @@ async function viewPast() {
                         <th>Submitted</th>
                         <th>Expense Type</th>
                         <th>Amount($)</th>
+                        <th>Comments</th>
                         <th>Status</th>
                         <th>Resolved By</th>
                     </tr>
@@ -211,13 +330,15 @@ async function viewPast() {
                 let td4 = document.createElement('td');
                 let td5 = document.createElement('td');
                 let td6 = document.createElement('td');
+                let td7 = document.createElement('td');
 
                 td1.innerText = data[i].reimb_id;
                 td2.innerText = data[i].time_submitted;
                 td3.innerText = data[i].type_id;
                 td4.innerText = data[i].reimb_amount;
-                td5.innerText = data[i].status_id;
-                td6.innerText = data[i].resolver;
+                td5.innerText = data[i].description;
+                td6.innerText = data[i].status_id;
+                td7.innerText = data[i].resolver;
 
                 tr.appendChild(td1);
                 tr.appendChild(td2);
@@ -225,6 +346,7 @@ async function viewPast() {
                 tr.appendChild(td4);
                 tr.appendChild(td5);
                 tr.appendChild(td6);
+                tr.appendChild(td7);
 
                 requestTable.appendChild(tr);
             }
@@ -264,10 +386,10 @@ async function viewPast() {
                 let td7 = document.createElement('td');
 
                 td1.innerText = data[i].reimb_id;
-                td2.innerText = data[i].author;
-                td3.innerText = data[i].time_submitted;
-                td4.innerText = data[i].type_id;
-                td5.innerText = data[i].reimb_amount;
+                td2.innerText = data[i].time_submitted;
+                td3.innerText = data[i].type_id;
+                td4.innerText = data[i].reimb_amount;
+                td5.innerText = data[i].description;
                 td6.innerText = data[i].status_id;
                 td7.innerText = data[i].resolver;
 

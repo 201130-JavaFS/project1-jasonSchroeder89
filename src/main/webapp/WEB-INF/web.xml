@@ -46,4 +46,14 @@
   	<servlet-name>MasterServlet</servlet-name>
   	<url-pattern>/past</url-pattern>
   </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>MasterServlet</servlet-name>
+  	<url-pattern>/pending</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>MasterServlet</servlet-name>
+  	<url-pattern>/resolve</url-pattern>
+  </servlet-mapping>
 </web-app>

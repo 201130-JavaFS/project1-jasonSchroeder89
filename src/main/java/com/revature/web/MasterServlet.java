@@ -24,15 +24,13 @@ public class MasterServlet extends HttpServlet {
 	private final PendingController pendingController = new PendingController();
 	private final ResolveController resolveController = new ResolveController();
 	
-	private static final Logger logger = LogManager.getLogger(
+	static final Logger logger = LogManager.getLogger(
 			MasterServlet.class);
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res)
 		throws ServletException, IOException{
 		
-		logger.info("GET request received");
-		logger.error("Test");
 		res.setContentType("application/json");
 		
 		res.setStatus(404);
@@ -41,26 +39,32 @@ public class MasterServlet extends HttpServlet {
 		
 		switch (URI) {
 		case "login":
+			logger.info("Login request made");
 			authController.login(req, res);
 			break;
 			
 		case "add":
+			logger.info("New reimbursement requested");
 			addController.addRequest(req, res);
 			break;
 			
 		case "pending":
+			logger.info("Request made for pending reimbursements");
 			pendingController.getPending(res);
 			break;
 			
 		case "resolve":
+			logger.info("Reimbursement request resolved");
 			resolveController.resolveRequest(req, res);
 			break;
 			
 		case "past":
+			logger.info("Request for reimbursement history made");
 			pastController.getPastRequests(req, res);
 			break;
 			
 		case "logout":
+			logger.info("User logged out of system");
 			authController.logout(req, res);
 			break;
 			
@@ -72,14 +76,14 @@ public class MasterServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		logger.info("POST request received");
+		
 		doGet(req, res);
 	}
 	
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		logger.info("PUT request receveived");
+		
 		doGet(req, res);
 	}
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.User;
 import com.revature.services.AuthService;
+import com.revature.web.MasterServlet;
 
 public class AuthController {
 

@@ -10,8 +10,6 @@ public class AddDAOImp implements AddDAO{
 	@Override
 	public boolean addRequest(Reimbursement reimbursement) {
 		
-		System.out.println(reimbursement);
-		
 		Session session = HibernateUtil.getSession();
 		
 		session.save(reimbursement);

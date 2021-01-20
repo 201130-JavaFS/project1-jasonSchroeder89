@@ -33,4 +33,4 @@ The Expense Reimbursement System (ERS) will manage the process of reimbursing em
 This project is still in development, and is inteded for demonstration purposes only.
 
 ## License
-This code is licensed under the terms of the <a href="https://github.com/201130-JavaFS/project1-jasonSchroeder89/blob/master/LICENSE">MIT</a> License.
+This code is licensed under the terms of the <a href="https://github.com/201130-JavaFS/project1-jasonSchroeder89/blob/master/LICENSE">MIT</a> License. Copyright (c) 2021 Jason Schroeder

@@ -32,3 +32,5 @@ The Expense Reimbursement System (ERS) will manage the process of reimbursing em
 ## Usage
 This project is still in development, and is inteded for demonstration purposes only.
 
+## License
+This code is licensed under the terms of the <a href="https://github.com/201130-JavaFS/project1-jasonSchroeder89/blob/master/LICENSE.txt">GPL-3</a>
